@@ -1,15 +1,15 @@
 ---
-- hosts: esc1
+- hosts: node1
   remote_user: root
   become: yes
   become_user: root
   roles:
       - common
-      - { role: elasticsearch, es_instance_name: "esc1.mindstream.it", es_heap_size: "1g", es_data_dirs: "/opt/elasticsearch",
+      - { role: elasticsearch, es_instance_name: "{{ hostname }}.{{ domain_name }}", es_heap_size: "1g", es_data_dirs: "/opt/elasticsearch",
     es_config: {
-        cluster.name: "es-mindstream",
-        network.host: 10.1.0.1,
-        discovery.zen.ping.unicast.hosts: "esc2.mindstream.it:9300,esc3.mindstream.it:9300,esc4.mindstream.it:9300",
+        cluster.name: "{{ cluster_name }}",
+        network.host: {{ node1_ip }},
+        discovery.zen.ping.unicast.hosts: "{{ hostname }}.{{ domain_name }}:9300,{{ hostname }}.{{ domain_name }}:9300,{{ hostname }}.{{ domain_name }}.it:9300",
         http.port: 9200,
         transport.tcp.port: 9300,
         discovery.zen.minimum_master_nodes: 3,
@@ -30,22 +30,22 @@
      - plugin: elasticsearch/license
        version: latest
 
-- hosts: esc2
+- hosts: node2
   remote_user: root
   become: yes
   become_user: root
   roles:
       - common
-      - { role: elasticsearch, es_instance_name: "esc2.mindstream.it", es_heap_size: "1g", es_data_dirs: "/opt/elasticsearch", 
+      - { role: elasticsearch, es_instance_name: "{{ hostname }}.{{ domain_name }}", es_heap_size: "1g", es_data_dirs: "/opt/elasticsearch", 
     es_config: {
-        discovery.zen.ping.unicast.hosts: "esc3.mindstream.it:9300,esc4.mindstream.it:9300,esc1.mindstream.it:9300",
+        discovery.zen.ping.unicast.hosts: "{{ hostname }}.{{ domain_name }}:9300,{{ hostname }}.{{ domain_name }}:9300,{{ hostname }}.{{ domain_name }}:9300",
         http.port: 9200,
         transport.tcp.port: 9300,
         node.data: true,
         node.master: true,
         bootstrap.mlockall: false,
-        cluster.name: "es-mindstream",
-        network.host: 10.1.0.2,
+        cluster.name: "{{ cluster_name }}",
+        network.host: {{ node2_ip }},
         discovery.zen.minimum_master_nodes: 3,
         gateway.recover_after_nodes: 3,
         gateway.expected_nodes: 4,
@@ -61,22 +61,22 @@
      - plugin: elasticsearch/license
        version: latest
 
-- hosts: esc3
+- hosts: node3
   remote_user: root
   become: yes
   become_user: root
   roles:
       - common
-      - { role: elasticsearch, es_instance_name: "esc3.mindstream.it", es_heap_size: "1g", es_data_dirs: "/opt/elasticsearch",
+      - { role: elasticsearch, es_instance_name: "{{ hostname }}.{{ domain_name }}", es_heap_size: "1g", es_data_dirs: "/opt/elasticsearch",
     es_config: {
-        discovery.zen.ping.unicast.hosts: "esc2.mindstream.it:9300,esc4.mindstream.it:9300,esc1.mindstream.it:9300",
-        http.port: 9201,
-        transport.tcp.port: 9301,
+        discovery.zen.ping.unicast.hosts: "{{ hostname }}.{{ domain_name }}:9300,{{ hostname }}.{{ domain_name }}:9300,{{ hostname }}.{{ domain_name }}:9300",
+        http.port: 9200,
+        transport.tcp.port: 9300,
         node.data: true,
         node.master: true,
         bootstrap.mlockall: false,
-        cluster.name: "es-mindstream",
-        network.host: 10.1.0.3
+        cluster.name: "{{ cluster_name }}",
+        network.host: {{ node3_ip }},
         discovery.zen.minimum_master_nodes: 3,
         gateway.recover_after_nodes: 3,
         gateway.expected_nodes: 4,
@@ -92,22 +92,22 @@
      - plugin: elasticsearch/license
        version: latest
 
-- hosts: esc4
+- hosts: node4
   remote_user: root
   become: yes
   become_user: root
   roles:
       - common
-      - { role: elasticsearch, es_instance_name: "esc4.mindstream.it", es_heap_size: "1g", es_data_dirs: "/opt/elasticsearch",
+      - { role: elasticsearch, es_instance_name: "{{ hostname }}.{{ domain_name }}", es_heap_size: "1g", es_data_dirs: "/opt/elasticsearch",
     es_config: {
-        discovery.zen.ping.unicast.hosts: "esc3.mindstream.it:9300,esc1.mindstream.it:9300,esc2.mindstream.it:9300",
+        discovery.zen.ping.unicast.hosts: "{{ hostname }}.{{ domain_name }}:9300,{{ hostname }}.{{ domain_name }}:9300,{{ hostname }}.{{ domain_name }}:9300",
         http.port: 9200,
         transport.tcp.port: 9300,
         node.data: true,
         node.master: true,
         bootstrap.mlockall: false,
-        cluster.name: "es-mindstream",
-        network.host: 10.1.0.4,
+        cluster.name: "{{ cluster_name }}",
+        network.host: {{ node4_ip }},
         discovery.zen.minimum_master_nodes: 3,
         gateway.recover_after_nodes: 3,
         gateway.expected_nodes: 4,
