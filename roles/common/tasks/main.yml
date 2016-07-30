@@ -1,0 +1,5 @@
+---
+- name: Set limits nofile
+  lineinfile: dest=/etc/security/limits.conf line="*    -    nofile     128000"
+- name: Set limits memlock
+  lineinfile: dest=/etc/security/limits.conf line="*    -    memlock     unlimited"

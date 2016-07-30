@@ -1,0 +1,12 @@
+[dev]
+10.1.0.0 ansible_user=root
+
+
+[esc2]
+esc2 ansible_user=root
+[esc3]
+esc3 ansible_user=root
+[esc4]
+esc4 ansible_user=root
+[esc1]
+esc1 ansible_user=root

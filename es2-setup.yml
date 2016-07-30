@@ -1,0 +1,125 @@
+---
+- hosts: esc1
+  remote_user: root
+  become: yes
+  become_user: root
+  roles:
+      - common
+      - { role: elasticsearch, es_instance_name: "esc1.mindstream.it", es_heap_size: "1g", es_data_dirs: "/opt/elasticsearch",
+    es_config: {
+        cluster.name: "es-mindstream",
+        network.host: 10.1.0.1,
+        discovery.zen.ping.unicast.hosts: "esc2.mindstream.it:9300,esc3.mindstream.it:9300,esc4.mindstream.it:9300",
+        http.port: 9200,
+        transport.tcp.port: 9300,
+        discovery.zen.minimum_master_nodes: 3,
+        gateway.recover_after_nodes: 3,
+        gateway.expected_nodes: 4,
+        gateway.recover_after_time: 15m,
+        node.data: true,
+        node.master: true,
+        bootstrap.mlockall: false,
+        discovery.zen.ping.multicast.enabled: false }
+    }
+  vars:
+    es_scripts: false
+    es_templates: false
+    es_version_lock: false
+    ansible_user: centos
+    es_plugins:
+     - plugin: elasticsearch/license
+       version: latest
+
+- hosts: esc2
+  remote_user: root
+  become: yes
+  become_user: root
+  roles:
+      - common
+      - { role: elasticsearch, es_instance_name: "esc2.mindstream.it", es_heap_size: "1g", es_data_dirs: "/opt/elasticsearch", 
+    es_config: {
+        discovery.zen.ping.unicast.hosts: "esc3.mindstream.it:9300,esc4.mindstream.it:9300,esc1.mindstream.it:9300",
+        http.port: 9200,
+        transport.tcp.port: 9300,
+        node.data: true,
+        node.master: true,
+        bootstrap.mlockall: false,
+        cluster.name: "es-mindstream",
+        network.host: 10.1.0.2,
+        discovery.zen.minimum_master_nodes: 3,
+        gateway.recover_after_nodes: 3,
+        gateway.expected_nodes: 4,
+        gateway.recover_after_time: 15m,
+        discovery.zen.ping.multicast.enabled: false } 
+    }
+  vars:
+    es_scripts: false
+    es_templates: false
+    es_version_lock: false
+    ansible_user: centos
+    es_plugins:
+     - plugin: elasticsearch/license
+       version: latest
+
+- hosts: esc3
+  remote_user: root
+  become: yes
+  become_user: root
+  roles:
+      - common
+      - { role: elasticsearch, es_instance_name: "esc3.mindstream.it", es_heap_size: "1g", es_data_dirs: "/opt/elasticsearch",
+    es_config: {
+        discovery.zen.ping.unicast.hosts: "esc2.mindstream.it:9300,esc4.mindstream.it:9300,esc1.mindstream.it:9300",
+        http.port: 9201,
+        transport.tcp.port: 9301,
+        node.data: true,
+        node.master: true,
+        bootstrap.mlockall: false,
+        cluster.name: "es-mindstream",
+        network.host: 10.1.0.3
+        discovery.zen.minimum_master_nodes: 3,
+        gateway.recover_after_nodes: 3,
+        gateway.expected_nodes: 4,
+        gateway.recover_after_time: 15m,
+        discovery.zen.ping.multicast.enabled: false } 
+    }
+  vars:
+    es_scripts: false
+    es_templates: false
+    es_version_lock: false
+    ansible_user: centos
+    es_plugins:
+     - plugin: elasticsearch/license
+       version: latest
+
+- hosts: esc4
+  remote_user: root
+  become: yes
+  become_user: root
+  roles:
+      - common
+      - { role: elasticsearch, es_instance_name: "esc4.mindstream.it", es_heap_size: "1g", es_data_dirs: "/opt/elasticsearch",
+    es_config: {
+        discovery.zen.ping.unicast.hosts: "esc3.mindstream.it:9300,esc1.mindstream.it:9300,esc2.mindstream.it:9300",
+        http.port: 9200,
+        transport.tcp.port: 9300,
+        node.data: true,
+        node.master: true,
+        bootstrap.mlockall: false,
+        cluster.name: "es-mindstream",
+        network.host: 10.1.0.4,
+        discovery.zen.minimum_master_nodes: 3,
+        gateway.recover_after_nodes: 3,
+        gateway.expected_nodes: 4,
+        gateway.recover_after_time: 15m,
+        discovery.zen.ping.multicast.enabled: false }
+    }
+  vars:
+    es_scripts: false
+    es_templates: false
+    es_version_lock: false
+    ansible_user: centos
+    es_plugins:
+     - plugin: elasticsearch/license
+       version: latest
+
