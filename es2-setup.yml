@@ -5,11 +5,11 @@
   become_user: root
   roles:
       - common
-      - { role: elasticsearch, es_instance_name: "{{ hostname }}.{{ domain_name }}", es_heap_size: "1g", es_data_dirs: "/opt/elasticsearch",
+      - { role: elasticsearch, es_instance_name: "{{ mozdef_es_node1 }}.{{ mozdef_domain }}", es_heap_size: "1g", es_data_dirs: "/opt/elasticsearch",
     es_config: {
         cluster.name: "{{ cluster_name }}",
         network.host: {{ node1_ip }},
-        discovery.zen.ping.unicast.hosts: "{{ hostname }}.{{ domain_name }}:9300,{{ hostname }}.{{ domain_name }}:9300,{{ hostname }}.{{ domain_name }}.it:9300",
+        discovery.zen.ping.unicast.hosts: "{{ mozdef_es_node2 }}.{{ mozdef_domain }}:9300,{{ mozdef_es_node3 }}.{{ mozdef_domain }}:9300,{{ mozdef_es_node4 }}.{{ mozdef_domain }}.it:9300",
         http.port: 9200,
         transport.tcp.port: 9300,
         discovery.zen.minimum_master_nodes: 3,
@@ -36,9 +36,9 @@
   become_user: root
   roles:
       - common
-      - { role: elasticsearch, es_instance_name: "{{ hostname }}.{{ domain_name }}", es_heap_size: "1g", es_data_dirs: "/opt/elasticsearch", 
+      - { role: elasticsearch, es_instance_name: "{{ mozdef_es_node2 }}.{{ mozdef_domain }}", es_heap_size: "1g", es_data_dirs: "/opt/elasticsearch", 
     es_config: {
-        discovery.zen.ping.unicast.hosts: "{{ hostname }}.{{ domain_name }}:9300,{{ hostname }}.{{ domain_name }}:9300,{{ hostname }}.{{ domain_name }}:9300",
+        discovery.zen.ping.unicast.hosts: "{{ mozdef_es_node1 }}.{{ mozdef_domain }}:9300,{{ mozdef_es_node3 }}.{{ mozdef_domain }}:9300,{{ mozdef_es_node4 }}.{{ mozdef_domain }}:9300",
         http.port: 9200,
         transport.tcp.port: 9300,
         node.data: true,
@@ -67,9 +67,9 @@
   become_user: root
   roles:
       - common
-      - { role: elasticsearch, es_instance_name: "{{ hostname }}.{{ domain_name }}", es_heap_size: "1g", es_data_dirs: "/opt/elasticsearch",
+      - { role: elasticsearch, es_instance_name: "{{ mozdef_es_node3 }}.{{ mozdef_domain }}", es_heap_size: "1g", es_data_dirs: "/opt/elasticsearch",
     es_config: {
-        discovery.zen.ping.unicast.hosts: "{{ hostname }}.{{ domain_name }}:9300,{{ hostname }}.{{ domain_name }}:9300,{{ hostname }}.{{ domain_name }}:9300",
+        discovery.zen.ping.unicast.hosts: "{{ mozdef_es_node1 }}.{{ mozdef_domain }}:9300,{{ mozdef_es_node2 }}.{{ mozdef_domain }}:9300,{{ mozdef_es_node4 }}.{{ mozdef_domain }}:9300",
         http.port: 9200,
         transport.tcp.port: 9300,
         node.data: true,
@@ -98,9 +98,9 @@
   become_user: root
   roles:
       - common
-      - { role: elasticsearch, es_instance_name: "{{ hostname }}.{{ domain_name }}", es_heap_size: "1g", es_data_dirs: "/opt/elasticsearch",
+      - { role: elasticsearch, es_instance_name: "{{ mozdef_es_node4 }}.{{ mozdef_domain }}", es_heap_size: "1g", es_data_dirs: "/opt/elasticsearch",
     es_config: {
-        discovery.zen.ping.unicast.hosts: "{{ hostname }}.{{ domain_name }}:9300,{{ hostname }}.{{ domain_name }}:9300,{{ hostname }}.{{ domain_name }}:9300",
+        discovery.zen.ping.unicast.hosts: "{{ mozdef_es_node1 }}.{{ mozdef_domain }}:9300,{{ mozdef_es_node2 }}.{{ mozdef_domain }}:9300,{{ mozdef_es_node3 }}.{{ mozdef_domain }}:9300",
         http.port: 9200,
         transport.tcp.port: 9300,
         node.data: true,

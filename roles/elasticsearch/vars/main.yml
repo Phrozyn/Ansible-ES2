@@ -3,3 +3,9 @@ es_package_url: "https://download.elastic.co/elasticsearch/elasticsearch/elastic
 es_conf_dir: "/etc/elasticsearch"
 sysd_script: "/usr/lib/systemd/system/elasticsearch.service"
 init_script: "/etc/init.d/elasticsearch"
+mozdef_domain: ""
+mozdef_es_node1:
+mozdef_es_node2:
+mozdef_es_node3:
+mozdef_es_node4:
+
